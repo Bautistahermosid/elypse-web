@@ -1,0 +1,15 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Large files not used in production
+public/model/*.obj
+public/model/*.mtl
+
+# Embedded repo
+temp_repo_ui_ux/
