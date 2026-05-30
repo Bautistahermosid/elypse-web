@@ -16,7 +16,12 @@ import {
   Terminal, 
   Shield, 
   Database,
-  ArrowRight
+  ArrowRight,
+  User,
+  Image as ImageIcon,
+  ChevronDown,
+  Trash2,
+  Camera
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
@@ -111,17 +116,22 @@ export const SystemShowcase = () => {
   // --- Sub-Component State & Interaction Managers ---
   
   // 1. Tickets Interactive State
-  const [ticketType, setTicketType] = useState<'Reparación' | 'Calibración' | 'Mejora' | 'Inspección'>('Calibración');
-  const [ticketAsset, setTicketAsset] = useState('Turbina Principal K-9');
+  const [ticketDesc, setTicketDesc] = useState('');
+  const [ticketAsset, setTicketAsset] = useState('');
+  const [ticketPriority, setTicketPriority] = useState('');
+  const [ticketTaller, setTicketTaller] = useState('');
+  const [ticketTaskType, setTicketTaskType] = useState('');
+  const [ticketRequester, setTicketRequester] = useState('Bautista Hermosid');
+  const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
   const [ticketsList, setTicketsList] = useState<Array<{id: string, type: string, asset: string, time: string, status: string}>>([
-    { id: 'OT-9842', type: 'Inspección', asset: 'Compresor Sigma II', time: 'Hace 5 min', status: 'Completado' },
-    { id: 'OT-9843', type: 'Reparación', asset: 'Brazo Robótico X-2', time: 'Hace 2 min', status: 'En Proceso' }
+    { id: 'OT-9842', type: 'Inspección de Seguridad', asset: 'Compresor Sigma II', time: 'Hace 5 min', status: 'Completado' },
+    { id: 'OT-9843', type: 'Reparación Correctiva', asset: 'Brazo Robótico X-2', time: 'Hace 2 min', status: 'En Proceso' }
   ]);
   const [isGeneratingTicket, setIsGeneratingTicket] = useState(false);
 
   const handleCreateTicket = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!ticketAsset.trim()) return;
+    if (!ticketDesc.trim() || !ticketPriority || !ticketTaller) return;
 
     setIsGeneratingTicket(true);
     setTimeout(() => {
@@ -129,15 +139,22 @@ export const SystemShowcase = () => {
       setTicketsList(prev => [
         {
           id: newId,
-          type: ticketType,
-          asset: ticketAsset,
+          type: ticketTaskType || 'Mantenimiento',
+          asset: ticketAsset || 'Activo General',
           time: 'Ahora',
           status: 'Abierto'
         },
         ...prev
       ]);
       setIsGeneratingTicket(false);
+      
+      // Reset form
+      setTicketDesc('');
       setTicketAsset('');
+      setTicketPriority('');
+      setTicketTaller('');
+      setTicketTaskType('');
+      setUploadedPhotos([]);
     }, 1000);
   };
 
@@ -356,60 +373,199 @@ export const SystemShowcase = () => {
                     >
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                         
-                        {/* Interactive Form */}
-                        <div className="bg-bg/40 border border-border-subtle/50 p-6 rounded-2xl space-y-4">
-                          <h4 className="text-xs uppercase tracking-wider font-mono text-accent flex items-center gap-2">
-                            <Wrench size={12} /> Nueva Orden de Trabajo
-                          </h4>
+                        {/* Interactive Form (Crear Nuevo Ticket matching the photo exactly) */}
+                        <div className="bg-bg/40 border border-border-subtle/50 p-6 rounded-2xl space-y-4 max-h-[460px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-border-subtle/40 scrollbar-track-transparent">
+                          
+                          <div className="space-y-1.5">
+                            <h3 className="text-lg font-bold text-accent tracking-wide uppercase">Crear Nuevo Ticket</h3>
+                            <p className="text-[10px] text-muted/70 font-mono">Complete los campos para registrar un nuevo ticket de soporte</p>
+                          </div>
+
                           <form onSubmit={handleCreateTicket} className="space-y-4">
-                            <div>
-                              <label className="block text-[10px] font-mono text-muted uppercase mb-1.5">Tipo de Incidencia</label>
-                              <div className="grid grid-cols-2 gap-2">
-                                {['Calibración', 'Reparación', 'Mejora', 'Inspección'].map((type) => (
-                                  <button
-                                    key={type}
-                                    type="button"
-                                    onClick={() => setTicketType(type as any)}
-                                    className={cn(
-                                      "py-2 px-3 text-[10px] rounded-lg border text-center transition-all font-medium cursor-pointer",
-                                      ticketType === type 
-                                        ? "bg-accent/15 border-accent/40 text-accent" 
-                                        : "bg-transparent border-border-subtle/30 text-muted/80 hover:text-ink"
-                                    )}
-                                  >
-                                    {type}
-                                  </button>
-                                ))}
+                            
+                            {/* Seccion 1: Informacion Basica */}
+                            <div className="space-y-4">
+                              <h4 className="text-[10px] uppercase font-mono tracking-widest text-muted/80 border-b border-border-subtle/20 pb-1 pt-2">
+                                Información Básica
+                              </h4>
+
+                              <div>
+                                <label className="block text-[9px] font-mono text-muted/95 uppercase mb-1.5">
+                                  Descripción del Problema <span className="text-error font-sans">*</span>
+                                </label>
+                                <textarea
+                                  value={ticketDesc}
+                                  onChange={(e) => setTicketDesc(e.target.value)}
+                                  placeholder="Describa detalladamente el problema o solicitud..."
+                                  className="w-full bg-bg/60 border border-border-subtle/40 rounded-xl px-4 py-3 text-xs text-ink placeholder-muted/30 focus:outline-none focus:border-accent/40 transition-colors h-20 resize-none"
+                                  required
+                                />
+                              </div>
+
+                              <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                  <label className="block text-[9px] font-mono text-muted/95 uppercase mb-1.5">Activo/Equipo</label>
+                                  <div className="relative">
+                                    <select
+                                      value={ticketAsset}
+                                      onChange={(e) => setTicketAsset(e.target.value)}
+                                      className="w-full bg-bg/60 border border-border-subtle/40 rounded-xl px-3 py-2.5 text-xs text-ink/80 focus:outline-none focus:border-accent/40 transition-colors appearance-none cursor-pointer pr-8"
+                                    >
+                                      <option value="">Seleccione un activo...</option>
+                                      <option value="Turbina Principal K-9">Turbina Principal K-9</option>
+                                      <option value="Compresor Sigma II">Compresor Sigma II</option>
+                                      <option value="Brazo Robótico X-2">Brazo Robótico X-2</option>
+                                      <option value="Generador Auxiliar G-04">Generador Auxiliar G-04</option>
+                                      <option value="Reactor Químico R-10">Reactor Químico R-10</option>
+                                    </select>
+                                    <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted/50 pointer-events-none" />
+                                  </div>
+                                  <p className="text-[7.5px] text-muted/40 font-mono mt-1">Si no ve el activo, regístrelo en "Registro de Equipos"</p>
+                                </div>
+
+                                <div>
+                                  <label className="block text-[9px] font-mono text-muted/95 uppercase mb-1.5">
+                                    Prioridad <span className="text-error font-sans">*</span>
+                                  </label>
+                                  <div className="relative">
+                                    <select
+                                      value={ticketPriority}
+                                      onChange={(e) => setTicketPriority(e.target.value)}
+                                      className="w-full bg-bg/60 border border-border-subtle/40 rounded-xl px-3 py-2.5 text-xs text-ink/80 focus:outline-none focus:border-accent/40 transition-colors appearance-none cursor-pointer pr-8"
+                                      required
+                                    >
+                                      <option value="">Seleccione prioridad...</option>
+                                      <option value="Baja">Baja</option>
+                                      <option value="Media">Media</option>
+                                      <option value="Alta">Alta</option>
+                                      <option value="Urgente">Urgente</option>
+                                    </select>
+                                    <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted/50 pointer-events-none" />
+                                  </div>
+                                </div>
                               </div>
                             </div>
 
-                            <div>
-                              <label className="block text-[10px] font-mono text-muted uppercase mb-1.5">Activo de Planta</label>
-                              <input
-                                type="text"
-                                value={ticketAsset}
-                                onChange={(e) => setTicketAsset(e.target.value)}
-                                placeholder="Eje: Caldera Principal H-4"
-                                className="w-full bg-bg/60 border border-border-subtle/40 rounded-xl px-4 py-3 text-xs text-ink placeholder-muted/30 focus:outline-none focus:border-accent/40 transition-colors"
-                              />
+                            {/* Seccion 2: Asignacion */}
+                            <div className="space-y-4">
+                              <h4 className="text-[10px] uppercase font-mono tracking-widest text-muted/80 border-b border-border-subtle/20 pb-1 pt-2">
+                                Asignación
+                              </h4>
+
+                              <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                  <label className="block text-[9px] font-mono text-muted/95 uppercase mb-1.5">
+                                    Taller <span className="text-error font-sans">*</span>
+                                  </label>
+                                  <div className="relative">
+                                    <select
+                                      value={ticketTaller}
+                                      onChange={(e) => setTicketTaller(e.target.value)}
+                                      className="w-full bg-bg/60 border border-border-subtle/40 rounded-xl px-3 py-2.5 text-xs text-ink/80 focus:outline-none focus:border-accent/40 transition-colors appearance-none cursor-pointer pr-8"
+                                      required
+                                    >
+                                      <option value="">Seleccione taller...</option>
+                                      <option value="Mecánica Central">Mecánica Central</option>
+                                      <option value="Electricidad e Inst.">Electricidad e Inst.</option>
+                                      <option value="Sistemas de Control">Sistemas de Control</option>
+                                      <option value="Calibración Industrial">Calibración Ind.</option>
+                                    </select>
+                                    <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted/50 pointer-events-none" />
+                                  </div>
+                                  <p className="text-[7.5px] text-muted/40 font-mono mt-1">Si no ve el taller, créelo en "Organización"</p>
+                                </div>
+
+                                <div>
+                                  <label className="block text-[9px] font-mono text-muted/95 uppercase mb-1.5">Tipo de Tarea</label>
+                                  <div className="relative">
+                                    <select
+                                      value={ticketTaskType}
+                                      onChange={(e) => setTicketTaskType(e.target.value)}
+                                      className="w-full bg-bg/60 border border-border-subtle/40 rounded-xl px-3 py-2.5 text-xs text-ink/80 focus:outline-none focus:border-accent/40 transition-colors appearance-none cursor-pointer pr-8"
+                                    >
+                                      <option value="">Seleccione tipo...</option>
+                                      <option value="Calibración">Calibración</option>
+                                      <option value="Reparación Correctiva">Reparación Correctiva</option>
+                                      <option value="Mantenimiento Preventivo">Mantenimiento Prev.</option>
+                                      <option value="Inspección de Seguridad">Inspección de Seg.</option>
+                                    </select>
+                                    <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted/50 pointer-events-none" />
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div>
+                                <label className="block text-[9px] font-mono text-muted/95 uppercase mb-1.5">Solicitante</label>
+                                <div className="relative">
+                                  <User size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted/50" />
+                                  <input
+                                    type="text"
+                                    value={ticketRequester}
+                                    disabled
+                                    className="w-full bg-bg/40 border border-border-subtle/30 rounded-xl pl-10 pr-4 py-2.5 text-xs text-ink/50 cursor-not-allowed font-mono"
+                                  />
+                                </div>
+                              </div>
                             </div>
 
-                            <button
-                              type="submit"
-                              disabled={isGeneratingTicket || !ticketAsset.trim()}
-                              className={cn(
-                                "w-full py-3 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer",
-                                ticketAsset.trim() && !isGeneratingTicket
-                                  ? "bg-accent text-bg hover:shadow-[0_0_15px_rgba(6,182,212,0.4)]"
-                                  : "bg-border-subtle/20 text-muted/40 border border-border-subtle/20 cursor-not-allowed"
-                              )}
-                            >
-                              {isGeneratingTicket ? (
-                                <>Generando Orden...</>
-                              ) : (
-                                <>Crear Ticket <ArrowRight size={14} /></>
-                              )}
-                            </button>
+                            {/* Seccion 3: Fotos del Problema */}
+                            <div className="space-y-4">
+                              <h4 className="text-[10px] uppercase font-mono tracking-widest text-muted/80 border-b border-border-subtle/20 pb-1 pt-2">
+                                Fotos del Problema
+                              </h4>
+
+                              <div className="space-y-2">
+                                <label className="block text-[9px] font-mono text-muted/95 uppercase mb-0.5">Adjuntar Fotos</label>
+                                
+                                {uploadedPhotos.length === 0 ? (
+                                  <div 
+                                    onClick={() => setUploadedPhotos(['falla_valvula_turbine.png'])}
+                                    className="border-2 border-dashed border-border-subtle/50 hover:border-accent/40 rounded-xl p-5 text-center flex flex-col items-center justify-center cursor-pointer transition-colors group bg-bg/15"
+                                  >
+                                    <Camera size={22} className="text-muted/50 group-hover:text-accent transition-colors mb-2" />
+                                    <span className="text-xs font-mono font-medium text-accent">Click para seleccionar fotos</span>
+                                    <span className="text-[7.5px] text-muted/40 font-mono mt-1">Formatos: JPG, PNG, GIF (máx. 5MB por foto)</span>
+                                  </div>
+                                ) : (
+                                  <div className="bg-bg/60 border border-border-subtle/40 rounded-xl p-3 flex items-center justify-between">
+                                    <div className="flex items-center gap-2.5">
+                                      <ImageIcon size={16} className="text-accent" />
+                                      <div className="text-left">
+                                        <span className="text-xs font-mono text-ink/85 block">{uploadedPhotos[0]}</span>
+                                        <span className="text-[7.5px] font-mono text-success">CARGADO CON ÉXITO // 1.2 MB</span>
+                                      </div>
+                                    </div>
+                                    <button 
+                                      type="button"
+                                      onClick={() => setUploadedPhotos([])}
+                                      className="text-muted hover:text-error transition-colors p-1 cursor-pointer"
+                                    >
+                                      <Trash2 size={13} />
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="pt-2">
+                              <button
+                                type="submit"
+                                disabled={isGeneratingTicket || !ticketDesc.trim() || !ticketPriority || !ticketTaller}
+                                className={cn(
+                                  "w-full py-3 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer",
+                                  ticketDesc.trim() && ticketPriority && ticketTaller && !isGeneratingTicket
+                                    ? "bg-accent text-bg hover:shadow-[0_0_15px_rgba(6,182,212,0.4)]"
+                                    : "bg-border-subtle/20 text-muted/40 border border-border-subtle/20 cursor-not-allowed"
+                                )}
+                              >
+                                {isGeneratingTicket ? (
+                                  <>Generando Orden...</>
+                                ) : (
+                                  <>Crear Ticket <ArrowRight size={14} /></>
+                                )}
+                              </button>
+                            </div>
+
                           </form>
                         </div>
 
