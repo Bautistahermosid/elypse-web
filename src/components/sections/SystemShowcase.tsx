@@ -124,8 +124,8 @@ export const SystemShowcase = () => {
   const [ticketRequester, setTicketRequester] = useState('Bautista Hermosid');
   const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
   const [ticketsList, setTicketsList] = useState<Array<{id: string, type: string, asset: string, time: string, status: string}>>([
-    { id: 'OT-9842', type: 'Inspección de Seguridad', asset: 'Compresor Sigma II', time: 'Hace 5 min', status: 'Completado' },
-    { id: 'OT-9843', type: 'Reparación Correctiva', asset: 'Brazo Robótico X-2', time: 'Hace 2 min', status: 'En Proceso' }
+    { id: '9842', type: 'Orden Generada', asset: 'Fuga de aceite en Compresor Sigma II', time: 'Hace 5 min', status: 'Completado' },
+    { id: '9843', type: 'En Espera', asset: 'Descalibración en Brazo Robótico X-2', time: 'Hace 2 min', status: 'En Espera' }
   ]);
   const [isGeneratingTicket, setIsGeneratingTicket] = useState(false);
 
@@ -135,12 +135,12 @@ export const SystemShowcase = () => {
 
     setIsGeneratingTicket(true);
     setTimeout(() => {
-      const newId = `OT-${Math.floor(1000 + Math.random() * 9000)}`;
+      const newId = `${Math.floor(1000 + Math.random() * 9000)}`;
       setTicketsList(prev => [
         {
           id: newId,
-          type: ticketTaskType || 'Mantenimiento',
-          asset: ticketAsset || 'Activo General',
+          type: 'Orden Generada',
+          asset: `${ticketDesc} en ${ticketAsset || 'Activo General'}`,
           time: 'Ahora',
           status: 'Abierto'
         },
@@ -569,10 +569,10 @@ export const SystemShowcase = () => {
                           </form>
                         </div>
 
-                        {/* Real-time feed */}
+                        {/* Real-time feed (Gestión de Tickets) */}
                         <div className="space-y-4">
                           <h4 className="text-xs uppercase tracking-wider font-mono text-muted flex items-center gap-2">
-                            <Terminal size={12} className="text-accent" /> Historial de Órdenes
+                            <Terminal size={12} className="text-accent" /> Gestión de Tickets
                           </h4>
                           <div className="space-y-2.5 max-h-[220px] overflow-y-auto pr-1">
                             {ticketsList.map((ticket, i) => (
@@ -585,12 +585,12 @@ export const SystemShowcase = () => {
                               >
                                 <div className="space-y-1">
                                   <div className="flex items-center gap-2">
-                                    <span className="text-[10px] font-mono text-accent">{ticket.id}</span>
+                                    <span className="text-[10px] font-mono text-accent">#{ticket.id}</span>
                                     <span className={cn(
                                       "px-1.5 py-0.5 rounded text-[8px] font-mono uppercase font-bold",
-                                      ticket.type === 'Reparación' ? "bg-error/10 text-error" :
-                                      ticket.type === 'Calibración' ? "bg-accent/10 text-accent" :
-                                      ticket.type === 'Mejora' ? "bg-success/10 text-success" : "bg-warning/10 text-warning"
+                                      ticket.type === 'Orden Generada' ? "bg-success/10 text-success border border-success/20" :
+                                      ticket.type === 'En Espera' ? "bg-warning/10 text-warning border border-warning/20" :
+                                      "bg-accent/10 text-accent border border-accent/20"
                                     )}>
                                       {ticket.type}
                                     </span>
@@ -602,7 +602,9 @@ export const SystemShowcase = () => {
                                   <span className={cn(
                                     "text-[9px] font-mono font-bold uppercase",
                                     ticket.status === 'Abierto' ? "text-accent animate-pulse" :
-                                    ticket.status === 'En Proceso' ? "text-warning" : "text-muted/40"
+                                    ticket.status === 'En Espera' ? "text-warning animate-pulse" : 
+                                    ticket.status === 'Completado' ? "text-success" : 
+                                    "text-muted/40"
                                   )}>
                                     {ticket.status}
                                   </span>
