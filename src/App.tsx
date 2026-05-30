@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/sections/Hero';
+import { SystemShowcase } from './components/sections/SystemShowcase';
 import { Maintenance } from './components/sections/Maintenance';
 import { Analytics } from './components/sections/Analytics';
 import { PlantBuilder } from './components/sections/PlantBuilder';
@@ -98,6 +99,7 @@ export default function App() {
         
         <main className="relative z-10">
           <Hero />
+          <SystemShowcase />
           <Maintenance />
           <Analytics />
           <PlantBuilder />
