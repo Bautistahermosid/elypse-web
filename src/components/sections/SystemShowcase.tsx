@@ -598,16 +598,7 @@ export const SystemShowcase = () => {
                                   <p className="text-xs font-medium text-ink/80">{ticket.asset}</p>
                                 </div>
                                 <div className="text-right">
-                                  <span className="text-[9px] font-mono text-muted block mb-1">{ticket.time}</span>
-                                  <span className={cn(
-                                    "text-[9px] font-mono font-bold uppercase",
-                                    ticket.status === 'Abierto' ? "text-accent animate-pulse" :
-                                    ticket.status === 'En Espera' ? "text-warning animate-pulse" : 
-                                    ticket.status === 'Completado' ? "text-success" : 
-                                    "text-muted/40"
-                                  )}>
-                                    {ticket.status}
-                                  </span>
+                                  <span className="text-[9px] font-mono text-muted block">{ticket.time}</span>
                                 </div>
                               </motion.div>
                             ))}
