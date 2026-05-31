@@ -24,14 +24,6 @@ import {
   Camera
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
-import { Canvas, useLoader } from '@react-three/fiber';
-import { OrbitControls, Stage } from '@react-three/drei';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
-
-function ModelObj() {
-  const obj = useLoader(OBJLoader, '/model/2dda9cb301c27420c63701527e61865d.obj');
-  return <primitive object={obj} />;
-}
 
 // Types & Data Structures
 type TabType = 'tickets' | 'equipos' | 'inventario' | 'planificacion' | 'exploracion';
@@ -629,19 +621,13 @@ export const SystemShowcase = () => {
                     >
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                         
-                        {/* Interactive 3D Object Model */}
-                        <div className="relative aspect-square max-w-[260px] mx-auto w-full bg-bg/40 border border-border-subtle/50 rounded-2xl flex items-center justify-center overflow-hidden">
-                          <Canvas camera={{ position: [0, 0, 100], fov: 50 }}>
-                            <ambientLight intensity={0.5} />
-                            <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-                            <pointLight position={[-10, -10, -10]} />
-                            <React.Suspense fallback={null}>
-                              <Stage environment="city" intensity={0.6}>
-                                <ModelObj />
-                              </Stage>
-                            </React.Suspense>
-                            <OrbitControls autoRotate autoRotateSpeed={rotationSpeed * 2} enableZoom={false} />
-                          </Canvas>
+                        {/* Static Image Model */}
+                        <div className="relative aspect-square max-w-[260px] mx-auto w-full bg-bg/40 border border-border-subtle/50 rounded-2xl flex items-center justify-center overflow-hidden p-4">
+                          <img 
+                            src="/model/machine.png" 
+                            alt="Machine Model" 
+                            className="w-full h-full object-contain drop-shadow-2xl mix-blend-screen"
+                          />
                           
                           {/* Speed slider indicator */}
                           <div className="absolute bottom-4 left-0 right-0 px-6 flex justify-between items-center">
