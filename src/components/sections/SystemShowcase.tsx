@@ -121,7 +121,7 @@ export const SystemShowcase = () => {
   const [ticketPriority, setTicketPriority] = useState('');
   const [ticketTaller, setTicketTaller] = useState('');
   const [ticketTaskType, setTicketTaskType] = useState('');
-  const [ticketRequester, setTicketRequester] = useState('Bautista Hermosid');
+  const [ticketRequester, setTicketRequester] = useState('Carlos Mendoza');
   const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
   const [ticketsList, setTicketsList] = useState<Array<{id: string, type: string, asset: string, time: string, status: string}>>([
     { id: '9842', type: 'Orden Generada', asset: 'Fuga de aceite en Compresor Sigma II', time: 'Hace 5 min', status: 'Completado' },
