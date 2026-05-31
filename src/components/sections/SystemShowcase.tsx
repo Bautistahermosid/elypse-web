@@ -24,6 +24,14 @@ import {
   Camera
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { Canvas, useLoader } from '@react-three/fiber';
+import { OrbitControls, Stage } from '@react-three/drei';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+
+function ModelObj() {
+  const obj = useLoader(OBJLoader, '/model/2dda9cb301c27420c63701527e61865d.obj');
+  return <primitive object={obj} />;
+}
 
 // Types & Data Structures
 type TabType = 'tickets' | 'equipos' | 'inventario' | 'planificacion' | 'exploracion';
@@ -159,7 +167,7 @@ export const SystemShowcase = () => {
   };
 
   // 2. Equipos State
-  const [selectedSubsystem, setSelectedSubsystem] = useState<'rotor' | 'valvulas' | 'sensores'>('rotor');
+  const [selectedSubsystem, setSelectedSubsystem] = useState<'info' | 'insumos' | 'historial'>('info');
   const [rotationSpeed, setRotationSpeed] = useState(1);
   const [specsOpen, setSpecsOpen] = useState(false);
 
@@ -621,56 +629,19 @@ export const SystemShowcase = () => {
                     >
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                         
-                        {/* High-tech SVG 3D wireframe simulator */}
-                        <div className="relative aspect-square max-w-[260px] mx-auto w-full bg-bg/40 border border-border-subtle/50 rounded-2xl flex items-center justify-center p-6 overflow-hidden">
-                          {/* Tech rings */}
-                          <div className="absolute w-[200px] h-[200px] rounded-full border border-accent/10 animate-[spin_20s_linear_infinite]" />
-                          <div className="absolute w-[160px] h-[160px] rounded-full border border-dashed border-accent/20 animate-[spin_10s_linear_infinite_reverse]" />
-                          <div className="absolute w-[120px] h-[120px] rounded-full border border-accent/5" />
-                          
-                          {/* Animated SVG Machine Core */}
-                          <svg className="w-[130px] h-[130px] relative z-10 text-accent" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <motion.g
-                              animate={{ rotate: 360 * rotationSpeed }}
-                              transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
-                              style={{ transformOrigin: '50px 50px' }}
-                            >
-                              <circle cx="50" cy="50" r="38" stroke="currentColor" strokeWidth="0.8" strokeDasharray="3 3" />
-                              <circle cx="50" cy="50" r="28" stroke="currentColor" strokeWidth="1" />
-                              
-                              {/* Industrial turbine spokes */}
-                              <line x1="50" y1="12" x2="50" y2="88" stroke="currentColor" strokeWidth="1.5" />
-                              <line x1="12" y1="50" x2="88" y2="50" stroke="currentColor" strokeWidth="1.5" />
-                              <line x1="23.2" y1="23.2" x2="76.8" y2="76.8" stroke="currentColor" strokeWidth="0.8" />
-                              <line x1="23.2" y1="76.8" x2="76.8" y2="23.2" stroke="currentColor" strokeWidth="0.8" />
-
-                              {/* Node joints */}
-                              <circle cx="50" cy="18" r="3" fill="var(--color-bg)" stroke="currentColor" strokeWidth="1.5" />
-                              <circle cx="50" cy="82" r="3" fill="var(--color-bg)" stroke="currentColor" strokeWidth="1.5" />
-                              <circle cx="18" cy="50" r="3" fill="var(--color-bg)" stroke="currentColor" strokeWidth="1.5" />
-                              <circle cx="82" cy="50" r="3" fill="var(--color-bg)" stroke="currentColor" strokeWidth="1.5" />
-                            </motion.g>
-                            
-                            {/* Inner Gear */}
-                            <motion.g
-                              animate={{ rotate: -360 * rotationSpeed }}
-                              transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
-                              style={{ transformOrigin: '50px 50px' }}
-                            >
-                              <circle cx="50" cy="50" r="14" stroke="currentColor" strokeWidth="1.2" />
-                              {Array.from({ length: 8 }).map((_, i) => {
-                                const angle = (i * 45 * Math.PI) / 180;
-                                const x1 = 50 + 14 * Math.cos(angle);
-                                const y1 = 50 + 14 * Math.sin(angle);
-                                const x2 = 50 + 18 * Math.cos(angle);
-                                const y2 = 50 + 18 * Math.sin(angle);
-                                return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="2.5" />;
-                              })}
-                            </motion.g>
-
-                            {/* Core sensor node */}
-                            <circle cx="50" cy="50" r="4" fill="currentColor" className="animate-pulse" />
-                          </svg>
+                        {/* Interactive 3D Object Model */}
+                        <div className="relative aspect-square max-w-[260px] mx-auto w-full bg-bg/40 border border-border-subtle/50 rounded-2xl flex items-center justify-center overflow-hidden">
+                          <Canvas camera={{ position: [0, 0, 100], fov: 50 }}>
+                            <ambientLight intensity={0.5} />
+                            <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+                            <pointLight position={[-10, -10, -10]} />
+                            <React.Suspense fallback={null}>
+                              <Stage environment="city" intensity={0.6}>
+                                <ModelObj />
+                              </Stage>
+                            </React.Suspense>
+                            <OrbitControls autoRotate autoRotateSpeed={rotationSpeed * 2} enableZoom={false} />
+                          </Canvas>
                           
                           {/* Speed slider indicator */}
                           <div className="absolute bottom-4 left-0 right-0 px-6 flex justify-between items-center">
@@ -697,7 +668,7 @@ export const SystemShowcase = () => {
                         {/* Interactive Technical Details */}
                         <div className="space-y-5">
                           <div className="flex gap-2">
-                            {['rotor', 'valvulas', 'sensores'].map((sub) => (
+                            {['info', 'insumos', 'historial'].map((sub) => (
                               <button
                                 key={sub}
                                 onClick={() => setSelectedSubsystem(sub as any)}
@@ -708,46 +679,78 @@ export const SystemShowcase = () => {
                                     : "bg-transparent border-border-subtle/50 text-muted"
                                 )}
                               >
-                                Sub: {sub}
+                                {sub === 'info' ? 'Info Técnica' : sub === 'insumos' ? 'Insumos Asociados' : 'Historial'}
                               </button>
                             ))}
                           </div>
 
                           <div className="bg-bg/40 border border-border-subtle/50 p-6 rounded-2xl space-y-4">
-                            <div className="flex justify-between items-center">
-                              <h4 className="text-xs uppercase font-mono text-ink tracking-wider">
-                                {selectedSubsystem === 'rotor' ? 'Modulo Rotor R-3' : 
-                                 selectedSubsystem === 'valvulas' ? 'Distribuidor Hidráulico H-4' : 'Matriz de Termosensores'}
-                              </h4>
-                              <span className="text-[10px] font-mono text-success">OPERATIVO</span>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4 text-xs">
-                              <div className="space-y-1">
-                                <span className="text-[10px] text-muted font-mono uppercase">ID Activo</span>
-                                <p className="font-mono text-ink/80">
-                                  {selectedSubsystem === 'rotor' ? 'EQ-ROT-0329' : 
-                                   selectedSubsystem === 'valvulas' ? 'EQ-VAL-1102' : 'EQ-SEN-0891'}
-                                </p>
+                            {selectedSubsystem === 'info' && (
+                              <>
+                                <div className="flex justify-between items-center">
+                                  <h4 className="text-xs uppercase font-mono text-ink tracking-wider">
+                                    Motor Rotacional R-3
+                                  </h4>
+                                  <span className="text-[10px] font-mono text-success">OPERATIVO</span>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4 text-xs">
+                                  <div className="space-y-1">
+                                    <span className="text-[10px] text-muted font-mono uppercase">ID Activo</span>
+                                    <p className="font-mono text-ink/80">EQ-ROT-0329</p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <span className="text-[10px] text-muted font-mono uppercase">Frecuencia Trabajo</span>
+                                    <p className="font-mono text-ink/80">{`${50 * rotationSpeed} Hz`}</p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <span className="text-[10px] text-muted font-mono uppercase">Salud Activo</span>
+                                    <p className="font-bold text-success flex items-center gap-1.5">
+                                      <Shield size={12} /> 98.4%
+                                    </p>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <span className="text-[10px] text-muted font-mono uppercase">Próximo Service</span>
+                                    <p className="font-mono text-accent">14 de Julio, 2026</p>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                            {selectedSubsystem === 'insumos' && (
+                              <div className="space-y-3">
+                                <h4 className="text-xs uppercase font-mono text-ink tracking-wider mb-2">Insumos Asociados</h4>
+                                <div className="flex justify-between items-center bg-bg/50 p-2 rounded border border-border-subtle/30">
+                                  <span className="text-[10px] text-muted font-mono">Aceite Sintético H-100</span>
+                                  <span className="text-[10px] font-mono text-accent">Stock: 12L</span>
+                                </div>
+                                <div className="flex justify-between items-center bg-bg/50 p-2 rounded border border-border-subtle/30">
+                                  <span className="text-[10px] text-muted font-mono">Sellos de Nitrilo 40mm</span>
+                                  <span className="text-[10px] font-mono text-warning">Stock: 4 u.</span>
+                                </div>
+                                <div className="flex justify-between items-center bg-bg/50 p-2 rounded border border-border-subtle/30">
+                                  <span className="text-[10px] text-muted font-mono">Filtro de Aire F-2</span>
+                                  <span className="text-[10px] font-mono text-success">Stock: 25 u.</span>
+                                </div>
                               </div>
-                              <div className="space-y-1">
-                                <span className="text-[10px] text-muted font-mono uppercase">Frecuencia Trabajo</span>
-                                <p className="font-mono text-ink/80">
-                                  {selectedSubsystem === 'rotor' ? `${50 * rotationSpeed} Hz` : 
-                                   selectedSubsystem === 'valvulas' ? '8 Bar Constante' : '150 ms ciclo'}
-                                </p>
+                            )}
+                            {selectedSubsystem === 'historial' && (
+                              <div className="space-y-3">
+                                <h4 className="text-xs uppercase font-mono text-ink tracking-wider mb-2">Historial de Mantenimiento</h4>
+                                <div className="border-l-2 border-accent/20 pl-3 space-y-3">
+                                  <div>
+                                    <p className="text-[10px] font-mono text-muted">12 May 2026</p>
+                                    <p className="text-xs text-ink/80">Cambio de rodamientos axiales</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-[10px] font-mono text-muted">05 Abr 2026</p>
+                                    <p className="text-xs text-ink/80">Inspección termográfica</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-[10px] font-mono text-muted">15 Feb 2026</p>
+                                    <p className="text-xs text-ink/80">Lubricación general</p>
+                                  </div>
+                                </div>
                               </div>
-                              <div className="space-y-1">
-                                <span className="text-[10px] text-muted font-mono uppercase">Salud Activo</span>
-                                <p className="font-bold text-success flex items-center gap-1.5">
-                                  <Shield size={12} /> 98.4%
-                                </p>
-                              </div>
-                              <div className="space-y-1">
-                                <span className="text-[10px] text-muted font-mono uppercase">Próximo Service</span>
-                                <p className="font-mono text-accent">14 de Julio, 2026</p>
-                              </div>
-                            </div>
+                            )}
                           </div>
                         </div>
 
