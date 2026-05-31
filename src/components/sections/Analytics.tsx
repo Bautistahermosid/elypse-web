@@ -93,19 +93,87 @@ export const Analytics = () => {
           </div>
 
           <div className="lg:w-1/2 w-full grid grid-cols-2 gap-4">
-             {/* Abstract data grid visual */}
-             {[...Array(6)].map((_, i) => (
-               <div key={i} className="h-24 hud-panel p-4 flex flex-col justify-end">
-                 <div className="w-full h-1 bg-ink/10 rounded-full overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${30 + Math.random() * 60}%` }}
-                      transition={{ duration: 1.5, delay: i * 0.1 }}
-                      className="h-full bg-accent" 
-                    />
-                 </div>
+             {/* 1. Bar Chart */}
+             <div className="h-32 hud-panel p-4 flex flex-col justify-between">
+               <span className="text-[10px] font-mono text-muted uppercase">Producción (Q3)</span>
+               <div className="flex items-end justify-between h-16 gap-1 mt-2">
+                 {[40, 70, 45, 90, 60, 85, 30].map((h, i) => (
+                   <motion.div 
+                     key={i}
+                     initial={{ height: 0 }}
+                     whileInView={{ height: `${h}%` }}
+                     transition={{ duration: 1, delay: i * 0.1 }}
+                     className="w-full bg-accent/80 rounded-t-sm"
+                   />
+                 ))}
                </div>
-             ))}
+             </div>
+
+             {/* 2. Line Chart */}
+             <div className="h-32 hud-panel p-4 flex flex-col justify-between">
+               <span className="text-[10px] font-mono text-muted uppercase">Eficiencia OEE</span>
+               <div className="relative h-16 w-full mt-2">
+                 <svg viewBox="0 0 100 40" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+                   <motion.path
+                     initial={{ pathLength: 0 }}
+                     whileInView={{ pathLength: 1 }}
+                     transition={{ duration: 1.5, ease: "easeInOut" }}
+                     d="M0,30 L20,15 L40,25 L60,5 L80,20 L100,0"
+                     fill="none"
+                     stroke="var(--color-accent)"
+                     strokeWidth="2"
+                     vectorEffect="non-scaling-stroke"
+                   />
+                   <motion.path
+                     initial={{ opacity: 0 }}
+                     whileInView={{ opacity: 0.2 }}
+                     transition={{ duration: 1.5, ease: "easeInOut" }}
+                     d="M0,30 L20,15 L40,25 L60,5 L80,20 L100,0 L100,40 L0,40 Z"
+                     fill="var(--color-accent)"
+                   />
+                 </svg>
+               </div>
+             </div>
+
+             {/* 3. Pie/Donut Chart */}
+             <div className="h-32 hud-panel p-4 flex flex-col justify-between items-center relative">
+               <span className="text-[10px] font-mono text-muted uppercase self-start">Distribución Fallas</span>
+               <div className="relative w-16 h-16 mt-2 flex items-center justify-center">
+                 <svg viewBox="0 0 36 36" className="w-full h-full transform -rotate-90">
+                   <circle cx="18" cy="18" r="16" fill="none" className="stroke-ink/10" strokeWidth="3" />
+                   <motion.circle 
+                     initial={{ strokeDasharray: "0, 100" }}
+                     whileInView={{ strokeDasharray: "65, 100" }}
+                     transition={{ duration: 1.5 }}
+                     cx="18" cy="18" r="16" fill="none" className="stroke-accent" strokeWidth="3" 
+                   />
+                   <motion.circle 
+                     initial={{ strokeDasharray: "0, 100" }}
+                     whileInView={{ strokeDasharray: "20, 100" }}
+                     transition={{ duration: 1.5, delay: 0.5 }}
+                     strokeDashoffset="-65"
+                     cx="18" cy="18" r="16" fill="none" className="stroke-warning" strokeWidth="3" 
+                   />
+                 </svg>
+                 <span className="absolute text-[10px] font-bold text-ink">65%</span>
+               </div>
+             </div>
+
+             {/* 4. Scatter / Activity */}
+             <div className="h-32 hud-panel p-4 flex flex-col justify-between">
+               <span className="text-[10px] font-mono text-muted uppercase">Nodos Activos</span>
+               <div className="relative h-16 w-full mt-2 grid grid-cols-8 gap-[2px]">
+                 {Array.from({ length: 32 }).map((_, i) => (
+                   <motion.div
+                     key={i}
+                     initial={{ opacity: 0.1 }}
+                     animate={{ opacity: [0.1, Math.random() * 0.8 + 0.2, 0.1] }}
+                     transition={{ duration: Math.random() * 2 + 1, repeat: Infinity }}
+                     className="bg-accent rounded-sm w-full h-full"
+                   />
+                 ))}
+               </div>
+             </div>
           </div>
 
           {/* Decorative background circle */}
