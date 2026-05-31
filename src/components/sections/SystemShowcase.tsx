@@ -631,7 +631,7 @@ export const SystemShowcase = () => {
                           
                           {/* Speed slider indicator */}
                           <div className="absolute bottom-4 left-0 right-0 px-6 flex justify-between items-center">
-                            <span className="text-[8px] font-mono text-muted/60 uppercase">ROTATIONAL ROTOR // SIM</span>
+                            <span className="text-[8px] font-mono text-muted/60 uppercase">INYECTORA // SIM</span>
                             <div className="flex gap-1.5">
                               {[0.5, 1, 2].map((s) => (
                                 <button
@@ -675,14 +675,14 @@ export const SystemShowcase = () => {
                               <>
                                 <div className="flex justify-between items-center">
                                   <h4 className="text-xs uppercase font-mono text-ink tracking-wider">
-                                    Motor Rotacional R-3
+                                    Inyectora
                                   </h4>
                                   <span className="text-[10px] font-mono text-success">OPERATIVO</span>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4 text-xs">
                                   <div className="space-y-1">
                                     <span className="text-[10px] text-muted font-mono uppercase">ID Activo</span>
-                                    <p className="font-mono text-ink/80">EQ-ROT-0329</p>
+                                    <p className="font-mono text-ink/80">INY-001-PNO</p>
                                   </div>
                                   <div className="space-y-1">
                                     <span className="text-[10px] text-muted font-mono uppercase">Frecuencia Trabajo</span>
