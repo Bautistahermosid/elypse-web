@@ -1036,7 +1036,7 @@ export const SystemShowcase = () => {
                               </div>
                               <div className="bg-white/5 p-2 rounded border border-white/5">
                                 <span className="text-[9px] text-muted font-mono uppercase block mb-1">Última Tarea</span>
-                                <span className="font-mono text-ink/80 text-[10px] truncate block" title="Mantenimiento Brazo KUKA">Brazo KUKA</span>
+                                <span className="font-mono text-ink/80 text-[10px] truncate block" title="Mantenimiento Brazo Rob">Brazo Rob</span>
                               </div>
                               <div className="bg-white/5 p-2 rounded border border-white/5">
                                 <span className="text-[9px] text-muted font-mono uppercase block mb-1">Certificaciones</span>
