@@ -67,10 +67,10 @@ const TABS: TabItem[] = [
   },
   {
     id: 'exploracion',
-    title: 'Exploración de Planta',
-    subtitle: 'Telemetría espacial interactiva',
-    description: 'Navegue de forma remota por los nodos físicos de su fábrica y reciba diagnósticos dinámicos de temperatura y vibración.',
-    tag: '05 / Spatial'
+    title: 'Administración de Personal',
+    subtitle: 'Gestión de RRHH interactiva',
+    description: 'Gestione a sus empleados, evalúe la matriz de habilidades y asigne tareas de acuerdo con las competencias técnicas.',
+    tag: '05 / HR Matrix'
   }
 ];
 
@@ -937,7 +937,7 @@ export const SystemShowcase = () => {
                     </motion.div>
                   )}
 
-                  {/* TAB 5: EXPLORACIÓN WIDGET */}
+                  {/* TAB 5: ADMINISTRACIÓN DE PERSONAL WIDGET */}
                   {activeTab === 'exploracion' && (
                     <motion.div
                       key="exploracion"
@@ -949,122 +949,101 @@ export const SystemShowcase = () => {
                     >
                       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
                         
-                        {/* Interactive factory map */}
-                        <div className="md:col-span-6 bg-bg/40 border border-border-subtle/50 rounded-2xl p-6 relative flex flex-col justify-center overflow-hidden min-h-[220px]">
-                          {/* Grid Overlay */}
-                          <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:15px_15px]" />
+                        {/* Interactive Skills Matrix */}
+                        <div className="md:col-span-7 bg-bg/40 border border-border-subtle/50 rounded-2xl p-6 relative flex flex-col overflow-hidden min-h-[240px]">
+                          <div className="flex justify-between items-center mb-4">
+                            <h4 className="text-xs uppercase font-mono text-ink tracking-wider">
+                              Matriz de Habilidades
+                            </h4>
+                            <span className="text-[10px] font-mono text-accent">GLOBAL_VIEW</span>
+                          </div>
                           
-                          {/* Floor Plan schematics */}
-                          <div className="relative w-full h-[160px] border border-border-subtle/30 rounded-lg p-2.5 flex items-center justify-center">
-                            
-                            <svg className="w-full h-full text-muted/20" viewBox="0 0 100 50">
-                              {/* Floor layout outlines */}
-                              <rect x="5" y="5" width="40" height="40" stroke="currentColor" strokeWidth="0.8" fill="none" />
-                              <rect x="55" y="5" width="40" height="20" stroke="currentColor" strokeWidth="0.8" fill="none" />
-                              <rect x="55" y="30" width="40" height="15" stroke="currentColor" strokeWidth="0.8" fill="none" />
-                              <line x1="45" y1="25" x2="55" y2="25" stroke="currentColor" strokeWidth="0.8" strokeDasharray="2 2" />
-                            </svg>
-
-                            {/* Node Hotspots */}
-                            {/* Reactor 10 (Zone A) */}
-                            <button
-                              onClick={() => setSelectedPlantZone('A')}
-                              className="absolute top-[20%] left-[20%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer group"
-                            >
-                              <div className={cn(
-                                "w-4 h-4 rounded-full border flex items-center justify-center transition-all",
-                                selectedPlantZone === 'A' 
-                                  ? "bg-accent/20 border-accent scale-125" 
-                                  : "bg-bg border-muted/50 hover:border-ink"
-                              )}>
-                                <div className={cn("w-1.5 h-1.5 rounded-full", selectedPlantZone === 'A' ? "bg-accent" : "bg-muted/70")} />
-                              </div>
-                              <span className="text-[7px] font-mono text-muted uppercase mt-1">R-10</span>
-                            </button>
-
-                            {/* Compressor (Zone B) */}
-                            <button
-                              onClick={() => setSelectedPlantZone('B')}
-                              className="absolute top-[25%] left-[75%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer group"
-                            >
-                              <div className={cn(
-                                "w-4 h-4 rounded-full border flex items-center justify-center transition-all",
-                                selectedPlantZone === 'B' 
-                                  ? "bg-warning/20 border-warning scale-125 shadow-[0_0_10px_rgba(245,166,35,0.4)]" 
-                                  : "bg-bg border-warning/50 hover:border-warning"
-                              )}>
-                                <div className={cn("w-1.5 h-1.5 rounded-full", selectedPlantZone === 'B' ? "bg-warning" : "bg-warning/70")} />
-                              </div>
-                              <span className="text-[7px] font-mono text-muted uppercase mt-1">G-04</span>
-                            </button>
-
-                            {/* Cooler (Zone C) */}
-                            <button
-                              onClick={() => setSelectedPlantZone('C')}
-                              className="absolute top-[70%] left-[75%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer group"
-                            >
-                              <div className={cn(
-                                "w-4 h-4 rounded-full border flex items-center justify-center transition-all",
-                                selectedPlantZone === 'C' 
-                                  ? "bg-accent/20 border-accent scale-125" 
-                                  : "bg-bg border-muted/50 hover:border-ink"
-                              )}>
-                                <div className={cn("w-1.5 h-1.5 rounded-full", selectedPlantZone === 'C' ? "bg-accent" : "bg-muted/70")} />
-                              </div>
-                              <span className="text-[7px] font-mono text-muted uppercase mt-1">C-12</span>
-                            </button>
-
+                          <div className="overflow-x-auto pb-2">
+                            <table className="w-full text-left border-collapse">
+                              <thead>
+                                <tr className="border-b border-border-subtle/50 text-[9px] uppercase font-mono text-muted">
+                                  <th className="py-2 pr-4 font-normal">Operario</th>
+                                  <th className="py-2 px-2 font-normal text-center">Mecánica</th>
+                                  <th className="py-2 px-2 font-normal text-center">Eléctrica</th>
+                                  <th className="py-2 px-2 font-normal text-center">Robótica</th>
+                                  <th className="py-2 px-2 font-normal text-center">Seguridad</th>
+                                </tr>
+                              </thead>
+                              <tbody className="text-xs">
+                                {[
+                                  { name: 'García, M.', skills: [4, 2, 1, 5] },
+                                  { name: 'López, S.', skills: [2, 5, 4, 3] },
+                                  { name: 'Fernández, R.', skills: [5, 4, 2, 4] },
+                                  { name: 'Martínez, L.', skills: [3, 3, 5, 5] }
+                                ].map((user, i) => (
+                                  <tr key={i} className="border-b border-border-subtle/20 hover:bg-white/5 transition-colors">
+                                    <td className="py-2.5 pr-4 font-medium text-ink/90 whitespace-nowrap">{user.name}</td>
+                                    {user.skills.map((score, j) => (
+                                      <td key={j} className="py-2.5 px-2 text-center">
+                                        <div className="flex gap-0.5 justify-center">
+                                          {Array.from({ length: 5 }).map((_, k) => (
+                                            <div 
+                                              key={k} 
+                                              className={cn(
+                                                "w-1.5 h-1.5 rounded-sm",
+                                                k < score 
+                                                  ? (score >= 4 ? "bg-success" : "bg-warning") 
+                                                  : "bg-muted/20"
+                                              )}
+                                            />
+                                          ))}
+                                        </div>
+                                      </td>
+                                    ))}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
                           </div>
                         </div>
 
-                        {/* Telemetry output */}
-                        <div className="md:col-span-6 flex flex-col justify-between space-y-4">
+                        {/* Simulated User Data Panel */}
+                        <div className="md:col-span-5 flex flex-col justify-between space-y-4">
                           
-                          <div className="bg-bg/40 border border-border-subtle/50 p-5 rounded-2xl space-y-3">
+                          <div className="bg-bg/40 border border-border-subtle/50 p-5 rounded-2xl space-y-4 flex-1">
                             <div className="flex justify-between items-center">
                               <h5 className="text-[10px] font-mono text-accent uppercase tracking-widest flex items-center gap-1.5">
-                                <Activity size={12} /> Zona: {selectedPlantZone}
+                                <User size={12} /> Perfil Seleccionado
                               </h5>
-                              <span className={cn(
-                                "text-[9px] font-mono font-bold uppercase",
-                                zoneMetadata[selectedPlantZone].status === 'Advertencia' ? "text-warning animate-pulse" : "text-success"
-                              )}>
-                                {zoneMetadata[selectedPlantZone].status}
+                              <span className="text-[9px] font-mono font-bold uppercase text-success animate-pulse">
+                                EN TURNO
                               </span>
                             </div>
 
-                            <h4 className="text-xs font-semibold text-ink">{zoneMetadata[selectedPlantZone].name}</h4>
-
-                            <div className="grid grid-cols-2 gap-3 text-xs pt-1">
-                              <div>
-                                <span className="text-[9px] text-muted font-mono uppercase block">Temperatura</span>
-                                <span className="font-mono text-ink/80 font-bold">{zoneMetadata[selectedPlantZone].temp}</span>
+                            <div className="flex items-center gap-4">
+                              <div className="w-12 h-12 rounded-full bg-border-subtle/50 border border-muted/30 flex items-center justify-center text-muted">
+                                <User size={24} />
                               </div>
                               <div>
-                                <span className="text-[9px] text-muted font-mono uppercase block">Vibración</span>
-                                <span className="font-mono text-ink/80 font-bold">{zoneMetadata[selectedPlantZone].vibracion}</span>
+                                <h4 className="text-sm font-bold text-ink">Laura Martínez</h4>
+                                <p className="text-[10px] font-mono text-muted uppercase">Técnica Especialista / Robótica</p>
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-3 text-xs pt-2">
+                              <div className="bg-white/5 p-2 rounded border border-white/5">
+                                <span className="text-[9px] text-muted font-mono uppercase block mb-1">Horas Activas</span>
+                                <span className="font-mono text-ink/80 font-bold">142.5 hrs</span>
+                              </div>
+                              <div className="bg-white/5 p-2 rounded border border-white/5">
+                                <span className="text-[9px] text-muted font-mono uppercase block mb-1">Eficiencia</span>
+                                <span className="font-mono text-success font-bold">94%</span>
+                              </div>
+                              <div className="bg-white/5 p-2 rounded border border-white/5">
+                                <span className="text-[9px] text-muted font-mono uppercase block mb-1">Última Tarea</span>
+                                <span className="font-mono text-ink/80 text-[10px] truncate block" title="Mantenimiento Brazo KUKA">Brazo KUKA</span>
+                              </div>
+                              <div className="bg-white/5 p-2 rounded border border-white/5">
+                                <span className="text-[9px] text-muted font-mono uppercase block mb-1">Certificaciones</span>
+                                <span className="font-mono text-accent font-bold">3 Vigentes</span>
                               </div>
                             </div>
                           </div>
-
-                          {/* Telemetry Mini Chart Graph SVG */}
-                          <div className="bg-bg/40 border border-border-subtle/50 p-4 rounded-2xl h-[100px] flex flex-col justify-between">
-                            <span className="text-[8px] font-mono text-muted/60 uppercase">Gráfico de Vibración en Planta (15s)</span>
-                            
-                            <div className="h-10 w-full flex items-end">
-                              <svg className="w-full h-full" viewBox="0 0 100 40" preserveAspectRatio="none">
-                                <motion.path
-                                  d={`M ${liveChartData.map((val, i) => `${(i / (liveChartData.length - 1)) * 100} ${40 - (val / 100) * 40}`).join(' L ')}`}
-                                  fill="none"
-                                  stroke="var(--color-accent)"
-                                  strokeWidth="1.5"
-                                  initial={false}
-                                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                />
-                              </svg>
-                            </div>
-                          </div>
-
                         </div>
 
                       </div>
