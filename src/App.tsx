@@ -15,26 +15,7 @@ import { Instagram, Linkedin, Twitter, ArrowUpRight } from 'lucide-react';
 
 const Footer = () => (
   <footer className="bg-bg text-ink py-32 px-12 border-t border-border-subtle relative z-10 font-sans">
-    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
-      <div className="space-y-4">
-        <span className="label-small text-muted">01 / Maintenance</span>
-        <p className="text-xs text-muted leading-relaxed">Automated ticketing and predictive planning modules for mission-critical assets.</p>
-      </div>
-      <div className="space-y-4">
-        <span className="label-small text-muted">02 / Asset Core</span>
-        <p className="text-xs text-muted leading-relaxed">Digital twin synchronization and real-time sensor telemetry integration.</p>
-      </div>
-      <div className="space-y-4">
-        <span className="label-small text-muted">03 / SCADA Builder</span>
-        <p className="text-xs text-muted leading-relaxed">No-code industrial visualization and modular control node construction.</p>
-      </div>
-      <div className="space-y-4">
-        <span className="label-small text-muted">04 / Neural Ops</span>
-        <p className="text-xs text-muted leading-relaxed">Enterprise-grade decision support through distributed edge-AI networks.</p>
-      </div>
-    </div>
-
-    <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 pt-16 border-t border-border-subtle">
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 pt-16">
       <div className="space-y-8">
         <div className="flex items-center gap-4">
           <Logo className="w-10 h-10 text-ink" />
