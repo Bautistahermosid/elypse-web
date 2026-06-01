@@ -31,7 +31,7 @@ const agents = [
 
 export const IndustrialAI = () => {
   return (
-    <section className="py-40 px-12 bg-card relative overflow-hidden">
+    <section id="agents" className="py-40 px-12 bg-card relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row items-start gap-24 mb-20">
           <div className="lg:w-1/2 space-y-10">

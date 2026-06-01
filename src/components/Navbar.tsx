@@ -1,18 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { LayoutGrid, BarChart3, Database, Cpu, Globe, ArrowRight } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 import { Logo } from './Logo';
 
-const navItems = [
-  { name: 'Mantenimiento', icon: LayoutGrid, href: '#maintenance' },
-  { name: 'Analytics', icon: BarChart3, href: '#analytics' },
-  { name: 'Maquinaria', icon: Database, href: '#machinery' },
-  { name: 'SCADA', icon: Cpu, href: '#scada' },
-  { name: 'Planta Virtual', icon: Globe, href: '#virtual-plant' },
-];
+type Language = 'ES' | 'PT' | 'EN';
+
+const translations = {
+  ES: {
+    nav: [
+      { name: 'plataforma', href: '#showcase' },
+      { name: 'operaciones', href: '#maintenance' },
+      { name: 'analitica', href: '#analytics' },
+      { name: 'constructor', href: '#plant-builder' },
+      { name: 'planta virtual', href: '#virtual-plant' },
+      { name: 'agentes', href: '#agents' },
+    ],
+    cta: 'Solicitar demo'
+  },
+  EN: {
+    nav: [
+      { name: 'Platform', href: '#showcase' },
+      { name: 'Operations', href: '#maintenance' },
+      { name: 'Analytics', href: '#analytics' },
+      { name: 'Builder', href: '#plant-builder' },
+      { name: 'Virtual Plant', href: '#virtual-plant' },
+      { name: 'Neural Agents', href: '#agents' },
+    ],
+    cta: 'Request Demo'
+  },
+  PT: {
+    nav: [
+      { name: 'Plataforma', href: '#showcase' },
+      { name: 'Operações', href: '#maintenance' },
+      { name: 'Analítica', href: '#analytics' },
+      { name: 'Construtor', href: '#plant-builder' },
+      { name: 'Planta Virtual', href: '#virtual-plant' },
+      { name: 'Agentes', href: '#agents' },
+    ],
+    cta: 'Solicitar demo'
+  }
+};
 
 export const Navbar = () => {
+  const [currentLang, setCurrentLang] = useState<Language>('ES');
+
   return (
     <motion.nav 
       initial={{ y: -100, opacity: 0 }}
@@ -27,7 +58,7 @@ export const Navbar = () => {
         </div>
 
         <nav className="hidden lg:flex gap-8 text-[11px] uppercase tracking-[0.2em] font-semibold text-ink/50">
-          {navItems.map((item) => (
+          {translations[currentLang].nav.map((item) => (
             <a 
               key={item.name} 
               href={item.href}
@@ -40,8 +71,26 @@ export const Navbar = () => {
       </div>
 
       <div className="flex items-center gap-6">
-        <button className="px-6 py-2 border border-ink/10 text-[11px] uppercase tracking-[0.2em] font-semibold text-ink hover:bg-ink hover:text-bg transition-all">
-          Request Demo
+        {/* Language Selector */}
+        <div className="flex items-center gap-3 border-r border-ink/15 pr-6 mr-2">
+          {(['ES', 'PT', 'EN'] as const).map((lang) => (
+            <button
+              key={lang}
+              onClick={() => setCurrentLang(lang)}
+              className={cn(
+                "text-[10px] font-mono tracking-wider font-bold transition-all px-2 py-0.5 rounded cursor-pointer",
+                currentLang === lang 
+                  ? "text-accent bg-accent/10 border border-accent/20" 
+                  : "text-ink/40 hover:text-ink/80 border border-transparent"
+              )}
+            >
+              {lang}
+            </button>
+          ))}
+        </div>
+
+        <button className="px-6 py-2 border border-ink/10 text-[11px] uppercase tracking-[0.2em] font-semibold text-ink hover:bg-ink hover:text-bg transition-all cursor-pointer">
+          {translations[currentLang].cta}
         </button>
       </div>
     </motion.nav>
