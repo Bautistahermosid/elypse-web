@@ -113,10 +113,10 @@ export default function App() {
                viewport={{ once: true }}
             >
               <h2 className="text-6xl md:text-8xl font-medium tracking-tight text-bg mb-12 font-editorial">
-                Eficiencia <br /> <span className="text-accent">Sin Compromisos.</span>
+                ¿Te animas al futuro <br /> <span className="text-accent">del mantenimiento?</span>
               </h2>
               <button className="bg-bg text-ink px-12 py-5 font-mono text-sm font-bold uppercase tracking-widest hover:scale-105 transition-transform active:scale-95 shadow-[0_0_20px_var(--color-bg)] cursor-pointer">
-                Cree su cuenta gratis
+                Solicitar info
               </button>
             </motion.div>
           </section>
