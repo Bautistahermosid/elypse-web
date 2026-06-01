@@ -30,29 +30,29 @@ const Footer = () => (
 
       <div className="grid grid-cols-2 lg:grid-cols-2 gap-16">
         <div className="space-y-6">
-          <h4 className="label-small text-muted">Platform</h4>
+          <h4 className="label-small text-muted">Plataforma</h4>
           <ul className="space-y-2 text-[11px] uppercase tracking-widest font-semibold text-muted">
-            <li className="hover:text-ink cursor-pointer hover:translate-x-1 transition-all">Capabilities</li>
-            <li className="hover:text-ink cursor-pointer hover:translate-x-1 transition-all">Integrations</li>
-            <li className="hover:text-ink cursor-pointer hover:translate-x-1 transition-all">Security</li>
+            <li className="hover:text-ink cursor-pointer hover:translate-x-1 transition-all">Funcionalidades</li>
+            <li className="hover:text-ink cursor-pointer hover:translate-x-1 transition-all">Integraciones</li>
+            <li className="hover:text-ink cursor-pointer hover:translate-x-1 transition-all">Seguridad</li>
           </ul>
         </div>
         <div className="space-y-6">
-          <h4 className="label-small text-muted">Company</h4>
+          <h4 className="label-small text-muted">Empresa</h4>
           <ul className="space-y-2 text-[11px] uppercase tracking-widest font-semibold text-muted">
-            <li className="hover:text-ink cursor-pointer hover:translate-x-1 transition-all">About</li>
-            <li className="hover:text-ink cursor-pointer hover:translate-x-1 transition-all">Journal</li>
-            <li className="hover:text-ink cursor-pointer hover:translate-x-1 transition-all">Support</li>
+            <li className="hover:text-ink cursor-pointer hover:translate-x-1 transition-all">Sobre nosotros</li>
+            <li className="hover:text-ink cursor-pointer hover:translate-x-1 transition-all">Trabaja con nosotros</li>
+            <li className="hover:text-ink cursor-pointer hover:translate-x-1 transition-all">Contacto</li>
           </ul>
         </div>
       </div>
     </div>
     
     <div className="max-w-7xl mx-auto mt-24 pt-8 border-t border-border-subtle flex flex-col md:flex-row justify-between items-center gap-4 text-[9px] uppercase tracking-[0.2em] font-bold text-muted">
-      <p>© 2026 Elypse Cloud Inc. Precision Operational Core.</p>
+      <p>© 2026 Elypse - Argentina</p>
       <div className="flex gap-8">
-        <span className="hover:text-ink cursor-pointer">Privacy</span>
-        <span className="hover:text-ink cursor-pointer">Terms</span>
+        <span className="hover:text-ink cursor-pointer">Privacidad</span>
+        <span className="hover:text-ink cursor-pointer">Términos</span>
       </div>
     </div>
   </footer>
