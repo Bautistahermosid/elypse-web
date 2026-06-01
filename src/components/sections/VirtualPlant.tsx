@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Globe, Map, Navigation, Maximize2 } from 'lucide-react';
+import { Globe, Maximize2 } from 'lucide-react';
 import { ScrollModel3D } from '../ScrollModel3D';
 
 export const VirtualPlant = () => {
@@ -32,19 +32,7 @@ export const VirtualPlant = () => {
               Navegue por su planta en un entorno inmersivo. Acceda a sensores y estados de maquinaria directamente sobre el modelo 3D de sus activos.
             </p>
             
-            <div className="grid grid-cols-1 gap-6">
-              {[
-                { label: 'Spatial Telemetry', icon: Navigation },
-                { label: 'Thermal Mapping', icon: Map },
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-6 group cursor-pointer border-b border-border-subtle pb-4">
-                  <div className="w-8 h-8 rounded-full border border-ink/10 flex items-center justify-center group-hover:bg-accent group-hover:border-accent transition-all duration-500">
-                    <item.icon size={14} className="text-ink group-hover:text-bg transition-colors" />
-                  </div>
-                  <span className="text-muted group-hover:text-ink transition-colors uppercase tracking-[0.2em] text-[10px] font-bold">{item.label}</span>
-                </div>
-              ))}
-            </div>
+
           </motion.div>
 
           <motion.div 
