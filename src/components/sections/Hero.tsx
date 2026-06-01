@@ -18,24 +18,9 @@ export const Hero = () => {
             <h1 className="editorial-title font-editorial mb-8 text-ink">
               Elypse<span className="text-accent animate-pulse">_</span>
             </h1>
-            <p className="text-lg md:text-xl text-ink/50 max-w-sm font-light leading-relaxed mb-12">
-              An intelligent core for autonomous industrial operations and predictive maintenance.
+            <p className="text-lg md:text-xl text-ink/50 max-w-lg font-light leading-relaxed mb-12">
+              Software inteligente de mantenimiento predictivo y gestión de activos para la optimización de operaciones industriales en tiempo real.
             </p>
-            
-            <div className="flex gap-8 items-center">
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                className="flex items-center gap-4 group"
-              >
-                <div className="w-14 h-14 rounded-full border border-ink/10 flex items-center justify-center group-hover:bg-ink transition-all duration-500">
-                  <div className="w-0 h-0 border-t-[6px] border-t-transparent border-l-[10px] border-l-ink border-b-[6px] border-b-transparent ml-1 group-hover:border-l-bg transition-colors" />
-                </div>
-                <span className="text-[11px] uppercase tracking-[0.2em] font-bold text-ink">Watch Narrative</span>
-              </motion.button>
-              
-              <div className="h-[1px] w-12 bg-ink/10" />
-              <span className="text-[11px] text-muted uppercase tracking-[0.2em] font-semibold">Version 4.2.0</span>
-            </div>
           </motion.div>
         </div>
 
@@ -72,16 +57,6 @@ export const Hero = () => {
            </div>
         </div>
       </div>
-
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 1 }}
-        className="absolute bottom-12 left-12 flex flex-col items-center gap-4 opacity-20 group cursor-pointer"
-      >
-        <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-ink vertical-rl rotate-180">Discover Core</span>
-        <div className="h-10 w-[1px] bg-ink group-hover:h-16 transition-all duration-500" />
-      </motion.div>
     </section>
   );
 };
